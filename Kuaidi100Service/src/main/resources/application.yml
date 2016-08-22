@@ -1,0 +1,144 @@
+
+server.port: 8080
+server.ssl.enabled: false
+server.ssl.key-store: classpath:keystore.jks
+server.ssl.key-store-password: changeit
+
+
+yintai:
+  connection:
+    defaultConnectionTimeout: 5000
+    defaultSoTimeout: 10000
+    maxPerRoute: 100
+    maxTotalConnection: 1000
+    defaultConnectionRequestTimeout: 1000
+  proxy:
+    url:
+      userService: http://localhost:9999
+
+---
+spring:
+  profiles: development
+
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:changeme
+    username: sa
+
+---
+spring:
+  profiles: testing
+  logging.logstash.destination: changeme
+
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://changeme
+    username: changeme
+    password: changeme
+    jmxEnabled: true
+    initialSize: 5
+    maxActive: 50
+    minIdle: 5
+    maxIdle: 25
+    maxWait: 10000
+    timeBetweenEvictionRunsMillis: 5000
+    minEvictableIdleTimeMillis: 60000
+    validationQuery: "SELECT 1"
+    validationQueryTimeout: 3
+    validationInterval: 15000
+    testOnBorrow: true
+    testWhileIdle: true
+    testOnReturn: false
+    jdbcInterceptors: "ConnectionState;StatementCache(max=200)"
+    defaultTransactionIsolation: 2 #java.sql.Connection.TRANSACTION_READ_COMMITTED
+  jpa:
+    database: postgresql
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      jadira:
+        usertype:
+          autoRegisterUserTypes: true
+          databaseZone: UTC
+          javaZone: UTC
+  jackson:
+    serialization:
+      write_dates_as_timestamps: false
+
+---
+spring:
+  profiles: production
+  logging.logstash.destination: changeme
+
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://changeme
+    username: changeme
+    password: changeme
+    jmxEnabled: true
+    initialSize: 5
+    maxActive: 50
+    minIdle: 5
+    maxIdle: 25
+    maxWait: 10000
+    timeBetweenEvictionRunsMillis: 5000
+    minEvictableIdleTimeMillis: 60000
+    validationQuery: "SELECT 1"
+    validationQueryTimeout: 3
+    validationInterval: 15000
+    testOnBorrow: true
+    testWhileIdle: true
+    testOnReturn: false
+    jdbcInterceptors: "ConnectionState;StatementCache(max=200)"
+    defaultTransactionIsolation: 2 #java.sql.Connection.TRANSACTION_READ_COMMITTED
+  jpa:
+    database: postgresql
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      jadira:
+        usertype:
+          autoRegisterUserTypes: true
+          databaseZone: UTC
+          javaZone: UTC
+  jackson:
+    serialization:
+      write_dates_as_timestamps: false
+
+---
+spring:
+  profiles.active: production
+
+---
+spring:
+  profiles: developer
+  erpOrderServiceRUrl: http://myerpapi.pokay.ts/
+  erpOrderServiceWUrl: http://myerpapi.pokay.ts/
+  erpKuaidi100BackUrl: http://api.pokay.com/
+  erpKuaidi100PostUrl: http://www.pokay.com/poll
+  erpKuaidi100PostKey: ****
+
+---
+spring:
+  profiles: testing
+  logging.logstash.destination: changeme
+  erpOrderServiceRUrl: http://myerpapi.pokay.ts/
+  erpOrderServiceWUrl: http://myerpapi.pokay.ts/
+  erpKuaidi100BackUrl: http://api.pokay.com/
+  erpKuaidi100PostUrl: http://www.kuaidi100.com/poll
+  erpKuaidi100PostKey: ****
+
+---
+spring:
+  profiles: production
+  logging.logstash.destination: changeme
+  erpOrderServiceRUrl: http://erpapi.pokay.com/
+  erpOrderServiceWUrl: http://erpapi.pokay.com/
+  erpKuaidi100BackUrl: http://api.pokay.com/
+  erpKuaidi100PostUrl: http://www.pokay.com/poll
+  erpKuaidi100PostKey: ****
+
